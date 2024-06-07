@@ -15,7 +15,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class NoteSerializers(serializers.ModelSerializer):
+    author = serializers.SerializerMethodField()
+    
     class Meta:
         model = Note
         fields = ['id', 'title', 'content', 'created_at', 'author']
         extra_kwargs = {'author': {'read_only': True}}
+        
+    def get_author(self, obj):
+        return obj.author.username
